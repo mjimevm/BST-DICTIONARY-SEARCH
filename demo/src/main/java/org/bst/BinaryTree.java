@@ -1,40 +1,21 @@
 package org.bst;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryTree<E extends Comparable<E>> {
-    private class Node<E> {
+
+    private static class Node<E> {
         E data;
         Node<E> left;
         Node<E> right;
-        public Node(E data) {
-            this.data = data;
-            this.left = null;
-            this.right = null;
+        Node(E data) { 
+            this.data = data; 
         }
     }
-    Node<E> root;
-    
-    public BinaryTree() {
-        this.root = null;
-    }
-    private void insert(E data, Node<E> root) {
-        if (data.compareTo(root.data) < 0) {
-            if (root.left == null) {
-                root.left = new Node<>(data);
-            } else {
-                insert(data, root.left);
-            }
-        } else if (data.compareTo(root.data) > 0) {
-            if (root.right == null) {
-                root.right = new Node<>(data);
-            } else {
-                insert(data, root.right);
-            }
-        } else {
-            throw new IllegalArgumentException("No se permite insertar valores duplicados en el árbol binario de búsqueda.");    
-        }
-    }
-    public Node<E> getRoot() {
-        return root;
-    }
+
+    private Node<E> root;
+
     public void insert(E data) {
         if (root == null) {
             root = new Node<>(data);
@@ -42,20 +23,55 @@ public class BinaryTree<E extends Comparable<E>> {
             insert(data, root);
         }
     }
-    public void search(E data) {
-        search(data, root);
-    }
-    private void search(E data, Node<E> root) {
-        if (root == null) {
-            System.out.println("El valor " + data + " no se encuentra en el árbol.");
-            return;
-        }
-        if (data.compareTo(root.data) < 0) {
-            search(data, root.left);
-        } else if (data.compareTo(root.data) > 0) {
-            search(data, root.right);
+
+    private void insert(E data, Node<E> node) {
+        int cmp = data.compareTo(node.data);
+
+        if (cmp < 0) {
+            if (node.left == null) {
+                node.left = new Node<>(data);
+            } else {
+                insert(data, node.left);
+            }
+        } else if (cmp > 0) {
+            if (node.right == null) {
+                node.right = new Node<>(data);
+            } else {
+                insert(data, node.right);
+            }
         } else {
-            System.out.println("El valor " + data + " se encuentra en el árbol.");
+            throw new IllegalArgumentException("Duplicado en BST: " + data);
         }
+    }
+
+    public E search(E data) {
+        return search(data, root);
+    }
+
+    private E search(E data, Node<E> node) {
+        if (node == null) {
+            return null;
+        }
+        int cmp = data.compareTo(node.data);
+        if (cmp < 0) {
+            return search(data, node.left);
+        }
+        if (cmp > 0) {
+            return search(data, node.right);
+        }
+        return node.data;
+    }
+
+    public List<E> inOrder() {
+        List<E> out = new ArrayList<>();
+        inOrder(root, out);
+        return out;
+    }
+
+    private void inOrder(Node<E> node, List<E> out) {
+        if (node == null) return;
+        inOrder(node.left, out);
+        out.add(node.data);
+        inOrder(node.right, out);
     }
 }
