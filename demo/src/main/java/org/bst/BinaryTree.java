@@ -69,7 +69,9 @@ public class BinaryTree<E extends Comparable<E>> {
     }
 
     private void inOrder(Node<E> node, List<E> out) {
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
         inOrder(node.left, out);
         out.add(node.data);
         inOrder(node.right, out);

@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String dicRuta = "demo/src/main/resources/diccionario.txt";
-        String txtRuta = "demo/src/main/resources/texto.txt";
+        String dicRuta = "src/main/resources/diccionario.txt";
+        String txtRuta = "src/main/resources/texto.txt";
 
         TXTReader reader = new TXTReader();
         Scanner teclado = new Scanner(System.in);
@@ -32,9 +32,7 @@ public class Main {
             }
         }
 
-        System.out.println("Diccionario ordenado (in-order):");
-        System.out.println(ordenarDiccionario(tree));
-        System.out.println();
+        System.out.println("============ DICCIONARIO INGLÉS-ESPAÑOL ============");
 
         int llave = 1;
 
@@ -42,27 +40,28 @@ public class Main {
             System.out.println("MENÚ:");
             System.out.println("1. Traducir palabra");
             System.out.println("2. Traducir archivo texto.txt");
-            System.out.println("3. Introducir frase para traducir");
+            System.out.println("3. Recorrido in-order del diccionario completo");
             System.out.println("4. Salir");
+            System.out.println("====================================================");
             System.out.print("Opción: ");
-
             int opcion = Integer.parseInt(teclado.nextLine().trim());
-
+            System.out.println("====================================================");
             switch (opcion) {
+                // TRADUCIR PALABRA
                 case 1:
                     System.out.print("Introduce la palabra a traducir: ");
                     String palabra = teclado.nextLine().trim();
                     traducirPalabra(tree, palabra);
                     break;
-                
+                // TRADUCIR ARCHIVO
                 case 2:
                     String frase = reader.leerArchivo(new File(txtRuta));
                     traducirFrase(tree, frase);
                     break;
+                // RECORRIDO IN-ORDER
                 case 3:
-                    System.out.print("Escribe la frase en inglés: ");
-                    String frase1 = teclado.nextLine();
-                    traducirFrase(tree, frase1);
+                    System.out.println("Diccionario ordenado (in-order):");
+                    System.out.println(ordenarDiccionario(tree));
                     break;
                 case 4:
                     System.out.println("Saliendo...");
@@ -71,8 +70,6 @@ public class Main {
 
                 default: System.out.println("Opción no válida.");
             }
-
-            System.out.println();
         }
     }
 
@@ -111,7 +108,7 @@ public class Main {
     private static String ordenarDiccionario(BinaryTree<Association<String, String>> tree) {
         StringBuilder sb = new StringBuilder();
         for (Association<String, String> assoc : tree.inOrder()) {
-            sb.append("(").append(assoc.getKey()).append(", ").append(assoc.getValue()).append(") ");
+            System.out.println("(" + assoc.getKey() + ", " + assoc.getValue() + ")");
         }
         return sb.toString().trim();
     }
