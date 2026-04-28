@@ -1378,3 +1378,8 @@
 (support, apoyo)
 (surface, superficie)
 (system, sistema)
+(I, yo)
+(she, ella)
+(he, él)
+(we, nosotros)
+(stars, estrellas)
